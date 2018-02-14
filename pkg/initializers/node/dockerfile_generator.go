@@ -41,20 +41,29 @@ ADD {{.ArtifactBase}} ${FUNCTION_URI}
 {{- end }}
 `
 
-// TODO create .dockerignore file
 var nodeFunctionDockerIgnoreTemplate = `
-{{ if .PackageJSONExists -}}
-node_modules
-{{- end }}
-`
+ {{ if .PackageJSONExists -}}
+ node_modules
+ {{- end }}
+ `
 
 func generateNodeFunctionDockerFile(opts options.InitOptions) (string, error) {
+	dockerFileTokens := generateDockerFileTokens(opts)
+	return core.GenerateFunctionDockerFileContents(nodeFunctionDockerfileTemplate, "docker-node", dockerFileTokens)
+}
+
+func generateNodeFunctionDockerIgnore(opts options.InitOptions) (string, error) {
+	dockerFileTokens := generateDockerFileTokens(opts)
+	return core.GenerateFunctionDockerIgnoreContents(nodeFunctionDockerIgnoreTemplate, "docker-node", dockerFileTokens)
+}
+
+func generateDockerFileTokens(opts options.InitOptions) NodeDockerFileTokens {
 	dockerFileTokens := NodeDockerFileTokens{}
 	dockerFileTokens.Artifact = opts.Artifact
 	dockerFileTokens.ArtifactBase = filepath.Base(opts.Artifact)
 	dockerFileTokens.RiffVersion = opts.RiffVersion
 	dockerFileTokens.PackageJSONExists = packageJSONExists(opts.FilePath)
-	return core.GenerateFunctionDockerFileContents(nodeFunctionDockerfileTemplate, "docker-node", dockerFileTokens)
+	return dockerFileTokens
 }
 
 func packageJSONExists(filePath string) bool {
