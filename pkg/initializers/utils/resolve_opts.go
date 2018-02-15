@@ -17,8 +17,8 @@
 package utils
 
 import (
-
 	"path/filepath"
+
 	"github.com/projectriff/riff-cli/pkg/functions"
 	"github.com/projectriff/riff-cli/pkg/options"
 )
@@ -38,8 +38,8 @@ func ResolveOptions(functionArtifact string, language string, opts *options.Init
 	protocolForLanguage := map[string]string{
 		"shell": "stdio",
 		"java":  "pipes",
-		"js":    "http",
-		"node":  "http",
+		"js":    "grpc",
+		"node":  "grpc",
 		"py":    "stdio",
 	}
 
