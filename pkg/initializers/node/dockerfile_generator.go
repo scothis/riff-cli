@@ -42,10 +42,10 @@ ADD {{.ArtifactBase}} ${FUNCTION_URI}
 `
 
 var nodeFunctionDockerIgnoreTemplate = `
- {{ if .PackageJSONExists -}}
- node_modules
- {{- end }}
- `
+{{ if .PackageJSONExists -}}
+node_modules
+{{- end }}
+`
 
 func generateNodeFunctionDockerFile(opts options.InitOptions) (string, error) {
 	dockerFileTokens := generateDockerFileTokens(opts)

@@ -113,19 +113,11 @@ func delete(cmd *cobra.Command, opts options.DeleteOptions) error {
 			cmdArgs = []string{"delete", "--namespace", opts.Namespace, "function", opts.FunctionName}
 		} else {
 			message = fmt.Sprintf("Deleting %v resource\n\n", opts.FilePath)
-			resourceDefinitionPaths, err := osutils.FindRiffResourceDefinitionPaths(abs)
-			if err != nil {
-				return err
-			}
-			cmdArgs = []string{"delete", "--namespace", opts.Namespace}
-			for _, resourceDefinitionPath := range resourceDefinitionPaths {
-				cmdArgs = append(cmdArgs, "-f", resourceDefinitionPath)
-			}
+			cmdArgs = []string{"delete", "--namespace", opts.Namespace, "-f", opts.FilePath}
 		}
 	}
 
 	if opts.DryRun {
-		//args := []string{"delete", "-f", abs}
 		fmt.Printf("\nDelete Command: kubectl %s\n\n", strings.Trim(fmt.Sprint(cmdArgs), "[]"))
 	} else {
 		fmt.Print(message)

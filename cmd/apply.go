@@ -67,7 +67,6 @@ var applyCmd = &cobra.Command{
 }
 
 func apply(cmd *cobra.Command, opts options.ApplyOptions) error {
-	//fnDir, _ := functions.FunctionDirFromPath(opts.FilePath)
 	abs, err := functions.AbsPath(opts.FilePath)
 	if err != nil {
 		cmd.SilenceUsage = true
